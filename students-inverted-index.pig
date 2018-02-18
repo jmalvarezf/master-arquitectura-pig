@@ -25,7 +25,7 @@ cleandata = foreach data generate
 cleandata_filtered = filter cleandata by org.apache.pig.piggybank.evaluation.IsNumeric(post_id);
 
 /* 4.Creamos tuplas separando el body por espacios y convirtiendo el post_id en un numerico a través de una función custom, para evitar problemas que sufrimos con el cast de String a Integer. */
-words_data = FOREACH cleandata_filtered GENERATE StringToInt(post_id) as post_id_int:int, FLATTEN(TOKENIZE(clean_body)) as word;
+words_data = FOREACH cleandata_filtered GENERATE StringToInt(post_id) as post_id_int:int, DISTINCT FLATTEN(TOKENIZE(clean_body)) as word;
 words_data_filtered = filter words_data by SIZE(word) > 0;
 
 /* 5.Agrupamos por palabra */
